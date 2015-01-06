@@ -315,14 +315,14 @@ public class PropagationMaintainerImpl implements PropagationMaintainer {
 			//skip GEN tasks
 			if(task.getExecService().getExecServiceType().equals(ExecService.ExecServiceType.GENERATE)) continue;
 
-			Date twoDaysAgo = new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24 * 2);
-			if(task.getEndTime().before(twoDaysAgo)) {
+			Date threeDaysAgo = new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24 * 3);
+			if(task.getEndTime().before(threeDaysAgo)) {
 				//reschedule the task
 				try {
 					taskScheduler.propagateService(task.getExecService(), new Date(System.currentTimeMillis()), task.getFacility());
-					log.info("TASK [" + task + "] wasn't propagated for more then 2 days. Going to schedule it for propagation now.");
+					log.info("TASK [" + task + "] wasn't propagated for more then 3 days. Going to schedule it for propagation now.");
 				} catch (InternalErrorException e) {
-					log.error("Rescheduling of task which wasn't propagated for more than 2 days failed. {}, Exception: {}", task, e);
+					log.error("Rescheduling of task which wasn't propagated for more than 3 days failed. {}, Exception: {}", task, e);
 				}
 			}
 
